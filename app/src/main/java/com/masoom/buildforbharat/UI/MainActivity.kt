@@ -6,16 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Advanceable
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.masoom.buildforbharat.R
+import com.masoom.buildforbharat.models.Item
 import com.masoom.buildforbharat.repository.QuestionsRepository
 import com.masoom.buildforbharat.utils.Constants.Companion.TIME_DELAY
 import com.masoom.buildforbharat.utils.QuestionViewModelProviderFactory
@@ -25,12 +24,12 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import okhttp3.internal.notify
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var viewModel: QuestionsViewModel
     lateinit var q_adapter: QuestionsAdapter
+    lateinit var q_list : MutableList<Item>
     val BANNER_AD_ID = "ca-app-pub-3940256099942544/6300978111"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +56,23 @@ class MainActivity : AppCompatActivity() {
                     {
                         avgView.visibility = View.VISIBLE
                         avgAns.visibility = View.VISIBLE
+                        val sq = editable.toString()
+                        var list = q_list
+                        var list2 = list.filter {
+                            it.title.contains(sq) or it.owner.display_name.contains(sq)
+
+                        }
+                        q_adapter.differ.clear()
+                        q_adapter.differ.addAll(list2 as MutableList<Object>)
+                        q_adapter.notifyDataSetChanged()
                         viewModel.getSearchQuestion(editable.toString())
+                    }
+                    else{
+                        avgView.visibility = View.INVISIBLE
+                        avgAns.visibility = View.INVISIBLE
+                        q_adapter.differ.clear()
+                        q_adapter.differ.addAll(q_list as MutableList<Object>)
+                        q_adapter.notifyDataSetChanged()
                     }
                 }
             }
@@ -81,6 +96,7 @@ class MainActivity : AppCompatActivity() {
 
 
                         var list = newsResponse.items as MutableList<Object>
+                        q_list = list as MutableList<Item>
                         var dummy = list.get(4)
                         list.add(4,dummy)
                         q_adapter.differ.addAll(list)
