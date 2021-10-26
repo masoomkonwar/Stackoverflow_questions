@@ -62,6 +62,15 @@ class MainActivity : AppCompatActivity() {
                             it.title.contains(sq) or it.owner.display_name.contains(sq)
 
                         }
+                        if(!list2.isEmpty())
+                        {
+                            avgView.text = viewModel.getAvgViewCount(list2).toString()
+                            avgAns.text = viewModel.getAvgAnsCount(list2).toString()
+                        }else
+                        {
+                            avgView.text = "0"
+                            avgAns.text = "0"
+                        }
                         q_adapter.differ.clear()
                         q_adapter.differ.addAll(list2 as MutableList<Object>)
                         q_adapter.notifyDataSetChanged()
@@ -73,6 +82,8 @@ class MainActivity : AppCompatActivity() {
                         q_adapter.differ.clear()
                         q_adapter.differ.addAll(q_list as MutableList<Object>)
                         q_adapter.notifyDataSetChanged()
+                        avgView.text = viewModel.getAvgViewCount(q_list).toString()
+                        avgAns.text = viewModel.getAvgAnsCount(q_list).toString()
                     }
                 }
             }

@@ -46,7 +46,7 @@ class QuestionsViewModel(val repository: QuestionsRepository) : ViewModel(){
         }
         return Resource.Error(response.message())
     }
-    private fun getAvgViewCount(items : List<Item> ) : Int{
+     fun getAvgViewCount(items : List<Item> ) : Int{
         var sum : Int =0
         var itr = items.listIterator()
         while (itr.hasNext())
@@ -55,7 +55,7 @@ class QuestionsViewModel(val repository: QuestionsRepository) : ViewModel(){
         }
         return sum/items.size
     }
-    private fun getAvgAnsCount(items : List<Item>) :Int{
+     fun getAvgAnsCount(items : List<Item>) :Int{
         var sum : Int =0
         var itr = items.listIterator()
         while (itr.hasNext())

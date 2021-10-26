@@ -62,9 +62,9 @@ class QuestionsAdapter : Adapter<ViewHolder>() {
                     tv_title.text = article.title
                     tv_ownersname.text = "author : "+article.owner.display_name
 
-                    var sdf  = SimpleDateFormat("ddMMyyyy")
-                    val date : Date = sdf.parse(article.creation_date.toString())
-                    tv_publishedon.text = "date : "+date.toString()
+                    var sdf  = SimpleDateFormat("dd-MM-yyyy")
+                    val date = Date(article.creation_date)
+                    tv_publishedon.text = "date : "+sdf.format(date)
                     setOnClickListener{
                         onItemClickListener?.let {
                             it(article)

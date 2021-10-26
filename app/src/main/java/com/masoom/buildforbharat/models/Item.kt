@@ -6,7 +6,7 @@ data class Item(
     val closed_date: Int,
     val closed_reason: String,
     val content_license: String,
-    val creation_date: Int,
+    val creation_date: Long,
     val is_answered: Boolean,
     val last_activity_date: Int,
     val last_edit_date: Int,
